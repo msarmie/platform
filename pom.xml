@@ -10,7 +10,7 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springframework.version>5.1.5.RELEASE</springframework.version>
+    <springframework.version>5.2.4.RELEASE</springframework.version>
     <springframework.data.jpa.version>1.6.0.RELEASE</springframework.data.jpa.version>
     <c3po.version>0.9.5.2</c3po.version>
     <tomcat.port>8080</tomcat.port>
