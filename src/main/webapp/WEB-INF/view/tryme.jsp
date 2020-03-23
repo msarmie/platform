@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Try</title>
+<link href="assets/style.css" rel="stylesheet">
+<title>Try DuraCloud Canada</title>
 </head>
 <body>
-<h3>Try</h3>
+
+	<%@include file='header.jsp'%>
+
+	<h3>Try Duracloud Canada</h3>
 </body>
 </html>

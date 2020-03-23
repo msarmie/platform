@@ -12,13 +12,13 @@ public class SpringDispatcherServletInitializer extends AbstractAnnotationConfig
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { ApplicationContextConfig.class } ;
+        return new Class[] { ApplicationContextConfig.class };
     }
 
     @Override
     protected String[] getServletMappings() {
         return new String[] { "/" };
-        
+
     }
 
 }

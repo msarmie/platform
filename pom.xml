@@ -10,12 +10,10 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springframework.version>5.1.5.RELEASE</springframework.version>
-    <springframework.data.jpa.version>1.6.0.RELEASE</springframework.data.jpa.version>
-    <c3po.version>0.9.5.2</c3po.version>
+    <springframework.version>5.2.0.RELEASE</springframework.version>
+    <springframework.data.jpa.version>2.2.0.RELEASE</springframework.data.jpa.version>
+    <jackson.databind.version>2.10.0</jackson.databind.version>
     <tomcat.port>8080</tomcat.port>
-    <mysql.connector.version>8.0.11</mysql.connector.version>
-    <hibernate.version>5.4.1.Final</hibernate.version>
   </properties>
 
   <dependencies>
@@ -78,29 +76,14 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.9.5</version>
+      <version>${jackson.databind.version}</version>
     </dependency>
     
-    <!-- Hibernate -->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-	
-    <!-- MySQL -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>${mysql.connector.version}</version>
-    </dependency>
-
-	<!-- C3PO -->
-    <dependency>
-      <groupId>com.mchange</groupId>
-      <artifactId>c3p0</artifactId>
-      <version>0.9.5.2</version>
-    </dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-csv</artifactId>
+      <version>2.9.6</version>
+	</dependency>
 
 	<!-- Servlet+JSP+JSTL -->
     <dependency>

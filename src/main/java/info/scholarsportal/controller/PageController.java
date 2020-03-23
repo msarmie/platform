@@ -1,12 +1,8 @@
 package info.scholarsportal.controller;
 
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,116 +14,153 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import info.scholarsportal.service.MillDbService;
+import info.scholarsportal.service.PlatformManager;
 
 @Controller
 public class PageController {
-	
-	@Autowired
-	private MillDbService millDbService;
-	
-	@RequestMapping("/")
-	public String showPage() {
-		return "index";
-	}
-	
-	@RequestMapping(value = "doc", 
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showDoc() {
-	    return "doc";
-	}
-	
-	
-	@RequestMapping("doc2")
-	public RedirectView docRedirect() {
-	    RedirectView redirectView = new RedirectView();
-	    redirectView.setUrl("https://github.com/duracloud/deployment-docs");
-	    return redirectView;
-	}
-	
-	
-	@RequestMapping(value = "factsheet",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showFactSheet() {
-		return "factsheet";
-	}
-	
-	@RequestMapping(value = "info", 
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showInfoHtml(Model model) {
-		System.out.println("Show HTML");
-		model.addAttribute("infoMap", getInfo("html"));
-		return "info";
-	}
-	
-	
-	@RequestMapping(value = "info", 
-			method = RequestMethod.GET,
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public Map<String, Object> showInfoJson() {
-		System.out.println("Show JSON");
-		Map<String, String> info = getInfo("json");
-		Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-		jsonMap.putAll(info);
-		jsonMap.replace("tags",  getTags());
-		return jsonMap;
-	}
 
-	
-	@RequestMapping(value = "licence",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showLicence() {
-		return "licence";
-	}
-	
-	@RequestMapping(value = "provenance",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showProvenance() {
-		return "provenance";
-	}
-	
-	@RequestMapping(value = "releasenotes",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showReleaseNotes() {
-		return "releasenotes";
-	}
-	
-	@RequestMapping(value = "source",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showSourceCode() {
-		return "source";
-	}
-	
-	@RequestMapping(value = "support",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showSupport() {
-		return "support";
-	}
-	
-	
-	@RequestMapping(value = "stats",
-            method = {RequestMethod.GET, RequestMethod.HEAD})
-	public ModelAndView showStatsHtml(Model model) {
-	    ModelAndView vm = new ModelAndView("stats");
-	    Map<String, Object> stats = getStats("html");
-	    if (stats.containsKey("error")) {
-	        vm.setViewName("error-503");
-	        vm.setStatus(HttpStatus.SERVICE_UNAVAILABLE);
-	    } else {
+    @Autowired
+    private PlatformManager platformManager;
+
+    @Autowired
+    public PageController(PlatformManager platformManager) {
+        this.platformManager = platformManager;
+    }
+
+    private static final String REDIRECT_PREFIX = "redirect:";
+
+    @RequestMapping("/")
+    public String showPage() {
+        return "index";
+    }
+
+    @RequestMapping(value = "doc", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView docRedirect() {
+        String redirectUrl = platformManager.getDocumentationUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("doc");
+    }
+
+    @RequestMapping(value = "factsheet", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showFactSheet() {
+        String redirectUrl = platformManager.getFactsheetUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("factsheet");
+    }
+
+    @RequestMapping(value = "licence", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showLicence() {
+        String redirectUrl = platformManager.getLicenceUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("licence");
+    }
+
+    @RequestMapping(value = "provenance", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showProvenance() {
+        String redirectUrl = platformManager.getProvenanceUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("provenance");
+    }
+
+    @RequestMapping(value = "releasenotes", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showReleaseNotes() {
+        String redirectUrl = platformManager.getReleasenotesUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("releasenotes");
+    }
+
+    @RequestMapping(value = "source", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showSourceCode() {
+        String redirectUrl = platformManager.getSourceUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("source");
+    }
+
+    @RequestMapping(value = "support", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showSupport() {
+        String redirectUrl = platformManager.getSupportUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("support");
+    }
+
+    @RequestMapping(value = "tryme", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showTryMe() {
+        String redirectUrl = platformManager.getTrymeUrl();
+        if (!redirectUrl.isEmpty()) {
+            return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
+        }
+        return new ModelAndView("tryme");
+    }
+
+    /**
+     * Information /platform/info HTML
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "info", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public String showInfoHtml(Model model) {
+        System.out.println("Show HTML");
+        model.addAttribute("infoMap", getInfo("html"));
+        return "info";
+    }
+
+    /**
+     * Information /platform/info JSON
+     * @return
+     */
+    @RequestMapping(value = "info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> showInfoJson() {
+        System.out.println("Show JSON");
+        Map<String, Object> info = getInfo("json");
+        Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
+        jsonMap.putAll(info);
+        // String to Array
+        jsonMap.replace("tags", info.get("tags").toString().split(","));
+        return jsonMap;
+    }
+
+    /**
+     * Statistics /platform/stats HTML
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "stats", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ModelAndView showStatsHtml(Model model) {
+        ModelAndView vm = new ModelAndView("stats");
+        Map<String, Object> stats = getStats("html");
+        if (stats.containsKey("error")) {
+            vm.setViewName("error-503");
+            vm.setStatus(HttpStatus.SERVICE_UNAVAILABLE);
+        } else {
             vm.addObject("statsMap", stats);
             model.addAttribute("statsMap", stats);
-	    }
-	    return vm;
-	}
+        }
+        return vm;
+    }
 
-    @RequestMapping(value = "stats", 
-            method = RequestMethod.GET,
-            produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Statistics /platform/stats JSON
+     * @return
+     */
+    @RequestMapping(value = "stats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Map<String,Object>> showStatsJson() {
+    public ResponseEntity<Map<String, Object>> showStatsJson() {
         System.out.println("Show JSON");
         Map<String, Object> stats = getStats("json");
         if (stats.containsKey("error")) {
@@ -137,88 +170,45 @@ public class PageController {
         }
     }
 
-	@RequestMapping(value = "tryme",
-			method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String showTryMe() {
-		return "tryme";
-	}
-	
-	protected Map<String,String> getInfo(String requestType) {
-	    Map<String,String> info = new LinkedHashMap<String, String>();
-	    Map<String, String> header = new LinkedHashMap<String,String>();
-	    header.put("name", "Name");
-	    header.put("synopsis", "Synopsis");
-	    header.put("version", "Versions");
-	    header.put("institution", "Institution");
-	    header.put("releaseTime", "Release Time");
-	    header.put("researchSubject", "Research Subject");
-	    header.put("supportEmail", "Support E-mail");
-	    header.put("tags", "Tags");
-	    
-	    Map<String, String> values = new LinkedHashMap<String, String>();
-	    values.put("name", "DuraCloud North");
-	    values.put("synopsis", "DuraCloud Canada: Linking Data Repositories to Preservation Storage");
-        values.put("version", "1.0");
-        values.put("institution", "University of Toronto Libraries, Scholars Portal");
-        values.put("releaseTime", "March 2020");
-        values.put("researchSubject", "Software and development");
-        values.put("supportEmail", "<a href=\"mailto:duracloud@scholarsportal.info\">duracloud@scholarsportal.info</a>");
-        values.put("tags", String.join(", ", getTags()));
-	    
-	    if (requestType.equalsIgnoreCase("json")) {
-	        for (String headerKey : header.keySet()) {
-	            info.put(headerKey, values.get(headerKey));
-	        }
-	    } else {
-	        for (String headerKey : header.keySet()) {
-                info.put(header.get(headerKey), values.get(headerKey));
+    /**
+     * Prepare Map output for /platform/info
+     * @param requestType
+     * @return
+     */
+    protected Map<String, Object> getInfo(String requestType) {
+        Map<String, Object> info = new LinkedHashMap<String, Object>();
+        Map<String, Map<String, Object>> values = this.platformManager.getInformation();
+
+        if (requestType.equalsIgnoreCase("json")) {
+            for (Entry<String, Map<String, Object>> entry : values.entrySet()) {
+                info.put(entry.getKey().toString(), entry.getValue().get("value"));
             }
-	    }       
-	    return info;
-	}
-	
-	protected List<String> getTags() {
-	    List<String> tags = Arrays.asList("cloud storage", "preservation storage", "research data preservation");
-	    return tags;
-	}
-	
-	protected Map<String, Object> getStats(String type) {
-	    Map<String, Object> stats = new LinkedHashMap<String, Object>();
-	    Integer active, deleted = null;
-	    
-	    Map<String, String> header = new LinkedHashMap<String, String>();
-	    header.put("numberOfActiveFiles", "Active Files");
-	    header.put("numberOfDeletedFiles", "Deleted Files");
-	    header.put("lastReset", "Last Reset");
-	    
-	    Map<String, String> values = new LinkedHashMap<String, String>();
-	    
-	    try {
-	        values.put("lastReset", millDbService.lastModified());
-	        active  =  millDbService.activeFiles();
-	        deleted  =  millDbService.deletedFiles();
-	        values.put("numberOfActiveFiles", active.toString());
-	        values.put("numberOfDeletedFiles", deleted.toString());
-	        
-	        if (type.equalsIgnoreCase("json")) {
-	            for (String hdr : header.keySet()) {
-	                stats.put(hdr, values.get(hdr));
-	            }
-	        } else {
-	            for (String hdr : header.keySet()) {
-                    stats.put(header.get(hdr), values.get(hdr));
-                }
-	        }
-	        active  =  millDbService.activeFiles();
-	        
-	    } catch (RuntimeException e) {
-	        System.out.println("NOT INTO IT");
-	        Map<String, String> err = new LinkedHashMap<String, String>();
-	        err.put("code", "503");
-	        err.put("message", "Service Unavailable");
-	        stats.put("error", err);
-	        e.printStackTrace();
-	    }
-	    return stats;
-	}
+        } else {
+            for (Entry<String, Map<String, Object>> entry : values.entrySet()) {
+                info.put(entry.getValue().get("name").toString(), entry.getValue().get("value"));
+            }
+        }
+        return info;
+    }
+
+    /**
+     * Prepare Map output for /platform/stats.
+     * @param type
+     * @return
+     */
+    protected Map<String, Object> getStats(String requestType) {
+        Map<String, Object> stats = new LinkedHashMap<String, Object>();
+        Map<String, Map<String, Object>> values = this.platformManager.getStatistics();
+
+        if (requestType.equalsIgnoreCase("json")) {
+            for (Entry<String, Map<String, Object>> entry : values.entrySet()) {
+                stats.put(entry.getKey().toString(), entry.getValue().get("value"));
+            }
+        } else {
+            for (Entry<String, Map<String, Object>> entry : values.entrySet()) {
+                stats.put(entry.getValue().get("name").toString(), entry.getValue().get("value"));
+            }
+        }
+        return stats;
+    }
 }
