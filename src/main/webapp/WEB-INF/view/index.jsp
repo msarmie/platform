@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <link href="assets/style.css" rel="stylesheet">
-<title>DuraCloud Canada Index</title>
+<title>Index</title>
 </head>
 <body>
 
-<%@include file='WEB-INF/view/header.jsp'%>
+<%@include file='header.jsp'%>
 
 <h3>Links</h3>
 <div><a href="info">Info</a></div>

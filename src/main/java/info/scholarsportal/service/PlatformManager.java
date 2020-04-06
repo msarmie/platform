@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +24,7 @@ public class PlatformManager {
 
     /**
      * Read JSON file with Information details.
+     * 
      * @return Map
      */
     public Map<String, Map<String, Object>> getInformation() {
@@ -35,6 +35,7 @@ public class PlatformManager {
 
     /**
      * Read JSON file with Statistics
+     * 
      * @return Map
      */
     public Map<String, Map<String, Object>> getStatistics() {
@@ -45,6 +46,7 @@ public class PlatformManager {
 
     /**
      * Return Fact sheet external URL to redirect
+     * 
      * @return
      */
     public String getFactsheetUrl() {
@@ -53,6 +55,7 @@ public class PlatformManager {
 
     /**
      * Return Documentation external URL to redirect
+     * 
      * @return
      */
     public String getDocumentationUrl() {
@@ -61,6 +64,7 @@ public class PlatformManager {
 
     /**
      * Return Licence external URL to redirect
+     * 
      * @return
      */
     public String getLicenceUrl() {
@@ -69,6 +73,7 @@ public class PlatformManager {
 
     /**
      * Return Provenance external URL to redirect
+     * 
      * @return
      */
     public String getProvenanceUrl() {
@@ -77,6 +82,7 @@ public class PlatformManager {
 
     /**
      * Return Release notes external URL to redirect
+     * 
      * @return
      */
     public String getReleasenotesUrl() {
@@ -85,6 +91,7 @@ public class PlatformManager {
 
     /**
      * Return Source code external URL to redirect
+     * 
      * @return
      */
     public String getSourceUrl() {
@@ -93,6 +100,7 @@ public class PlatformManager {
 
     /**
      * Return Siupport external URL to redirect
+     * 
      * @return
      */
     public String getSupportUrl() {
@@ -101,6 +109,7 @@ public class PlatformManager {
 
     /**
      * Return Trial external URL to redirect
+     * 
      * @return
      */
     public String getTrymeUrl() {
@@ -108,7 +117,42 @@ public class PlatformManager {
     }
 
     /**
+     * Return email displayed in support page
+     * 
+     * @return
+     */
+    public String getSupportEmail() {
+        return platformConfig.getSupportEmail();
+    }
+
+    /**
+     * Return platform home url
+     * 
+     * @return
+     */
+    public String getHomeUrl() {
+        return platformConfig.getHomeUrl();
+    }
+
+    /**
+     * Return header text
+     * 
+     * @return
+     */
+    public String getHeaderText() {
+        return platformConfig.getHeaderText();
+    }
+
+    public Map<String, Object> getHeader() {
+        Map<String, Object> header = new LinkedHashMap<String, Object>();
+        header.put("platformHeader", getHeaderText());
+        header.put("platformHomeUrl", getHomeUrl());
+        return header;
+    }
+
+    /**
      * Get platform directory and create stats directory.
+     * 
      * @return stats file object
      */
     public File getStatsDir() {
@@ -119,6 +163,7 @@ public class PlatformManager {
 
     /**
      * Get platform directory
+     * 
      * @return platform file object
      */
     public File getPlatformDir() {
@@ -137,6 +182,7 @@ public class PlatformManager {
 
     /**
      * Create directory path
+     * 
      * @param path
      * @return file object of file path
      */
@@ -154,6 +200,7 @@ public class PlatformManager {
 
     /**
      * Convert nested JSON to Map
+     * 
      * @param jsonFile
      * @return
      */

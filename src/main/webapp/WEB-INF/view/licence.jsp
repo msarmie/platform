@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="assets/style.css" rel="stylesheet">
-<title>DuraCloud Canada Licence</title>
+<title>Licence</title>
 </head>
 <body>
 

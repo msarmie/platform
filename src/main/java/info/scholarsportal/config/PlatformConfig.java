@@ -35,6 +35,15 @@ public class PlatformConfig {
     @Value("${platform.tryme.url}")
     private String trymeUrl;
 
+    @Value("${platform.support.email}")
+    private String supportEmail;
+
+    @Value("${platform.home.url}")
+    private String homeUrl;
+
+    @Value("${platform.header.text}")
+    private String headerText;
+
     public PlatformConfig() {
 
     }
@@ -109,5 +118,29 @@ public class PlatformConfig {
 
     public void setPlatformRootDir(String platformRootDir) {
         this.platformRootDir = platformRootDir;
+    }
+
+    public String getSupportEmail() {
+        return supportEmail;
+    }
+
+    public void setSupportEmail(String supportEmail) {
+        this.supportEmail = supportEmail;
+    }
+
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
+
+    public String getHeaderText() {
+        return headerText;
+    }
+
+    public void setHeaderText(String headerText) {
+        this.headerText = headerText;
     }
 }

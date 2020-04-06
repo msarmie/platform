@@ -30,8 +30,9 @@ public class PageController {
 
     private static final String REDIRECT_PREFIX = "redirect:";
 
-    @RequestMapping("/")
-    public String showPage() {
+    @RequestMapping(value= "/", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public String showIndex(Model model) {
+        model.addAllAttributes(platformManager.getHeader());
         return "index";
     }
 
@@ -41,7 +42,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("doc");
+        return new ModelAndView("doc").addAllObjects(platformManager.getHeader());
     }
 
     @RequestMapping(value = "factsheet", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -50,7 +51,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("factsheet");
+        return new ModelAndView("factsheet").addAllObjects(platformManager.getHeader());
     }
 
     @RequestMapping(value = "licence", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -59,7 +60,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("licence");
+        return new ModelAndView("licence").addAllObjects(platformManager.getHeader());
     }
 
     @RequestMapping(value = "provenance", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -68,7 +69,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("provenance");
+        return new ModelAndView("provenance").addAllObjects(platformManager.getHeader());
     }
 
     @RequestMapping(value = "releasenotes", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -77,7 +78,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("releasenotes");
+        return new ModelAndView("releasenotes").addAllObjects(platformManager.getHeader());
     }
 
     @RequestMapping(value = "source", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -86,7 +87,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("source");
+        return new ModelAndView("source").addAllObjects(platformManager.getHeader());
     }
 
     @RequestMapping(value = "support", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -95,7 +96,10 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("support");
+        ModelAndView modelView = new ModelAndView("support");
+        modelView.addAllObjects(platformManager.getHeader());
+        modelView.addObject("supportEmail", platformManager.getSupportEmail());
+        return modelView;
     }
 
     @RequestMapping(value = "tryme", method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -104,7 +108,7 @@ public class PageController {
         if (!redirectUrl.isEmpty()) {
             return new ModelAndView(REDIRECT_PREFIX + redirectUrl);
         }
-        return new ModelAndView("tryme");
+        return new ModelAndView("tryme").addAllObjects(platformManager.getHeader());
     }
 
     /**
@@ -116,6 +120,7 @@ public class PageController {
     public String showInfoHtml(Model model) {
         System.out.println("Show HTML");
         model.addAttribute("infoMap", getInfo("html"));
+        model.addAllAttributes(platformManager.getHeader());
         return "info";
     }
 
@@ -150,6 +155,7 @@ public class PageController {
         } else {
             vm.addObject("statsMap", stats);
             model.addAttribute("statsMap", stats);
+            model.addAllAttributes(platformManager.getHeader());
         }
         return vm;
     }

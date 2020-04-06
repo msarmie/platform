@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <link href="assets/style.css" rel="stylesheet">
-<title>Try DuraCloud Canada</title>
+<title>Trial</title>
 </head>
 <body>
 
 	<%@include file='header.jsp'%>
 
-	<h3>Try Duracloud Canada</h3>
+	<h3>Try</h3>
 </body>
 </html>

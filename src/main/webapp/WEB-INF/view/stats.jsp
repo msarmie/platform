@@ -6,7 +6,7 @@
 
 <link href="assets/style.css" rel="stylesheet">
 
-<title>DuraCloud Canada Statistics</title>
+<title>Statistics</title>
 </head>
 <body>
 

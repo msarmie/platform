@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <link href="assets/style.css" rel="stylesheet">
-<title>DuraCloud Canada Source</title>
+<title>Source Code</title>
 </head>
 <body>
 
 	<%@include file='header.jsp'%>
 
-	<h3>Source</h3>
+	<h3>Source Code</h3>
 </body>
 </html>

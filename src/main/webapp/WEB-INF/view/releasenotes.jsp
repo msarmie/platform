@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="assets/style.css" rel="stylesheet">
-<title>DuraCloud Canada Release Notes</title>
+<title>Release Notes</title>
 </head>
 <body>
 
